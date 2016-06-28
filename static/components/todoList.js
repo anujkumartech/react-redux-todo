@@ -17,13 +17,10 @@ export function TodoList(props) {
   };    
   
  const updateTodo = (event,id) => {
-    console.log(event);
     const input = event.target;
     const text = input.value;
     const enterPressed = (event.which == 13);
     const validText = text.length > 0;
-    console.log(text);
-
     if(enterPressed && validText) {      
       editTodo(id,text);
       input.value = '';

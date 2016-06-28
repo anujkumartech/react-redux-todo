@@ -4,7 +4,7 @@ import { addTodo, toggleTodo,deleteTodo,enableEditTodo,editTodo } from '../redux
 
 export const TodoList = connect(
   function mapStateToProps(state) {
-    return { todos: state };
+    return { todos: state.get("todos") };
   },
   function mapDispatchToProps(dispatch) {
     return {

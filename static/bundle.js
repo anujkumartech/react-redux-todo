@@ -21931,56 +21931,71 @@
 	var _immutable = __webpack_require__(191);
 
 	var init = (0, _immutable.List)([(0, _immutable.Map)({ id: 0, done: true, text: 'TODO 1', editMode: false }), (0, _immutable.Map)({ id: 1, done: false, text: 'TODO 2', editMode: false }), (0, _immutable.Map)({ id: 2, done: false, text: 'TODO 1', editMode: false }), (0, _immutable.Map)({ id: 3, done: false, text: 'TODO 1', editMode: false })]);
+
+	var initalData = (0, _immutable.Map)({
+	  todos: (0, _immutable.List)([(0, _immutable.Map)({ id: 0, done: true, text: 'TODO 1', editMode: false }), (0, _immutable.Map)({ id: 1, done: false, text: 'TODO 2', editMode: false }), (0, _immutable.Map)({ id: 2, done: false, text: 'TODO 1', editMode: false }), (0, _immutable.Map)({ id: 3, done: false, text: 'TODO 1', editMode: false })]),
+	  filterVal: 'All'
+	});
 	var uid = function uid() {
 	  return Math.random().toString(4).slice(3);
 	};
 
 	function reducer() {
-	  var todos = arguments.length <= 0 || arguments[0] === undefined ? init : arguments[0];
+	  var storeData = arguments.length <= 0 || arguments[0] === undefined ? initalData : arguments[0];
 	  var action = arguments[1];
 
 	  console.log("-----action---");
 	  console.log(action.type);
 	  switch (action.type) {
 	    case 'ADD_TODO':
-	      return todos.push((0, _immutable.Map)({ 'text': action.text,
-	        'id': uid(),
-	        'done': false
-	      }));
+	      return storeData.update('todos', function (todos) {
+	        return todos.push((0, _immutable.Map)({ 'text': action.text,
+	          'id': uid(),
+	          'done': false
+	        }));
+	      });
 	    case 'DELETE_TODO':
-	      return todos.filter(function (t) {
-	        return t.get('id') !== action.id;
+	      return storeData.update('todos', function (todos) {
+	        return todos.filter(function (t) {
+	          return t.get('id') !== action.id;
+	        });
 	      });
 	    case 'TOGGLE_TODO':
-	      return todos.map(function (t) {
-	        if (t.get('id') === action.id) {
-	          return t.update('done', function (done) {
-	            return !done;
-	          });
-	        } else {
-	          return t;
-	        }
+	      return storeData.update('todos', function (todos) {
+	        return todos.map(function (t) {
+	          if (t.get('id') === action.id) {
+	            return t.update('done', function (done) {
+	              return !done;
+	            });
+	          } else {
+	            return t;
+	          }
+	        });
 	      });
 	    case 'ENABLE_EDIT_TODO':
-	      return todos.map(function (t) {
-	        if (t.get('id') === action.id) {
-	          return t.update('editMode', function (editMode) {
-	            return !editMode;
-	          });
-	        } else {
-	          return t;
-	        }
+	      return storeData.update('todos', function (todos) {
+	        return todos.map(function (t) {
+	          if (t.get('id') === action.id) {
+	            return t.update('editMode', function (editMode) {
+	              return !editMode;
+	            });
+	          } else {
+	            return t;
+	          }
+	        });
 	      });
 	    case 'EDIT_TODO':
-	      return todos.map(function (t) {
-	        if (t.get('id') === action.id) {
-	          return t.merge({ text: action.text, editMode: false });
-	        } else {
-	          return t;
-	        }
+	      return storeData.update('todos', function (todos) {
+	        return todos.map(function (t) {
+	          if (t.get('id') === action.id) {
+	            return t.merge({ text: action.text, editMode: false });
+	          } else {
+	            return t;
+	          }
+	        });
 	      });
 	    default:
-	      return todos;
+	      return storeData;
 	  }
 	}
 
@@ -26985,12 +27000,12 @@
 
 	var components = _interopRequireWildcard(_todoList);
 
-	var _action = __webpack_require__(194);
+	var _action = __webpack_require__(195);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	var TodoList = exports.TodoList = (0, _reactRedux.connect)(function mapStateToProps(state) {
-	  return { todos: state };
+	  return { todos: state.get("todos") };
 	}, function mapDispatchToProps(dispatch) {
 	  return {
 	    addTodo: function addTodo(text) {
@@ -27026,7 +27041,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _todo = __webpack_require__(195);
+	var _todo = __webpack_require__(194);
 
 	var _todo2 = _interopRequireDefault(_todo);
 
@@ -27054,13 +27069,10 @@
 	  };
 
 	  var updateTodo = function updateTodo(event, id) {
-	    console.log(event);
 	    var input = event.target;
 	    var text = input.value;
 	    var enterPressed = event.which == 13;
 	    var validText = text.length > 0;
-	    console.log(text);
-
 	    if (enterPressed && validText) {
 	      editTodo(id, text);
 	      input.value = '';
@@ -27101,45 +27113,6 @@
 
 /***/ },
 /* 194 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.addTodo = addTodo;
-	exports.deleteTodo = deleteTodo;
-	exports.toggleTodo = toggleTodo;
-	exports.editTodo = editTodo;
-	exports.enableEditTodo = enableEditTodo;
-	var ADD_TODO = 'ADD_TODO';
-	var DELETE_TODO = 'DELETE_TODO';
-	var TOGGLE_TODO = 'TOGGLE_TODO';
-	var EDIT_TODO = 'EDIT_TODO';
-	var ENABLE_EDIT_TODO = 'ENABLE_EDIT_TODO';
-
-	function addTodo(text) {
-	  return { type: ADD_TODO, text: text };
-	}
-
-	function deleteTodo(id) {
-	  return { type: DELETE_TODO, id: id };
-	}
-
-	function toggleTodo(id) {
-	  return { type: TOGGLE_TODO, id: id };
-	}
-
-	function editTodo(id, text) {
-	  return { type: EDIT_TODO, id: id, text: text };
-	}
-	function enableEditTodo(id) {
-	  return { type: ENABLE_EDIT_TODO, id: id };
-	}
-
-/***/ },
-/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27195,6 +27168,45 @@
 	// }
 	//<button className={todo.editMode ? "btn btn-info margin-left-btn": "btn btn-info margin-left-btn hidden"}  onClick={enableEdit}>Update</button>
 	exports.default = Todo;
+
+/***/ },
+/* 195 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.addTodo = addTodo;
+	exports.deleteTodo = deleteTodo;
+	exports.toggleTodo = toggleTodo;
+	exports.editTodo = editTodo;
+	exports.enableEditTodo = enableEditTodo;
+	var ADD_TODO = 'ADD_TODO';
+	var DELETE_TODO = 'DELETE_TODO';
+	var TOGGLE_TODO = 'TOGGLE_TODO';
+	var EDIT_TODO = 'EDIT_TODO';
+	var ENABLE_EDIT_TODO = 'ENABLE_EDIT_TODO';
+
+	function addTodo(text) {
+	  return { type: ADD_TODO, text: text };
+	}
+
+	function deleteTodo(id) {
+	  return { type: DELETE_TODO, id: id };
+	}
+
+	function toggleTodo(id) {
+	  return { type: TOGGLE_TODO, id: id };
+	}
+
+	function editTodo(id, text) {
+	  return { type: EDIT_TODO, id: id, text: text };
+	}
+	function enableEditTodo(id) {
+	  return { type: ENABLE_EDIT_TODO, id: id };
+	}
 
 /***/ }
 /******/ ]);
