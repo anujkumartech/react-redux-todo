@@ -66,11 +66,13 @@
 
 	var _immutable = __webpack_require__(191);
 
+	var _immutable2 = _interopRequireDefault(_immutable);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var initalData = (0, _immutable.Map)({
-	  todos: (0, _immutable.List)([(0, _immutable.Map)({ id: 0, done: true, text: 'TODO 1', editMode: false }), (0, _immutable.Map)({ id: 1, done: false, text: 'TODO 2', editMode: false }), (0, _immutable.Map)({ id: 2, done: false, text: 'TODO 3', editMode: false }), (0, _immutable.Map)({ id: 3, done: false, text: 'TODO 45', editMode: false })]),
-	  filterVal: (0, _immutable.List)([(0, _immutable.Map)({ id: 0, active: true, val: 'All' }), (0, _immutable.Map)({ id: 1, active: false, val: 'Finished' }), (0, _immutable.Map)({ id: 2, active: false, val: 'Pending' })])
+	var initalData = _immutable2.default.Map({
+	  todos: _immutable2.default.List([_immutable2.default.Map({ id: 0, done: true, text: 'TODO 1', editMode: false }), _immutable2.default.Map({ id: 1, done: false, text: 'TODO 2', editMode: false }), _immutable2.default.Map({ id: 2, done: false, text: 'TODO 3', editMode: false }), _immutable2.default.Map({ id: 3, done: false, text: 'TODO 45', editMode: false })]),
+	  filterVal: _immutable2.default.List([_immutable2.default.Map({ id: 0, active: true, val: 'All' }), _immutable2.default.Map({ id: 1, active: false, val: 'Finished' }), _immutable2.default.Map({ id: 2, active: false, val: 'Pending' })])
 	});
 	var store = (0, _redux.createStore)(_reducers2.default, initalData);
 
@@ -21939,111 +21941,37 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.default = reducer;
 
 	var _immutable = __webpack_require__(191);
 
-	var _redux = __webpack_require__(168);
+	var _reduxImmutable = __webpack_require__(198);
 
-	// const init = List([
-	//   Map({ id: 0, done: true,  text: 'TODO 1',editMode:false }),
-	//   Map({ id: 1, done: false, text: 'TODO 2',editMode:false }),
-	//   Map({ id: 2, done: false, text: 'TODO 1',editMode:false }),
-	//   Map({ id: 3, done: false, text: 'TODO 1',editMode:false })   
-	// ]);
+	/*const init = List([
+	  Map({ id: 0, done: true,  text: 'TODO 1',editMode:false }),
+	  Map({ id: 1, done: false, text: 'TODO 2',editMode:false }),
+	  Map({ id: 2, done: false, text: 'TODO 1',editMode:false }),
+	  Map({ id: 3, done: false, text: 'TODO 1',editMode:false })    
+	]);
 
-	// const initalData = Map({
-	//   todos:List([
-	//     Map({ id: 0, done: true,  text: 'TODO 1',editMode:false }),
-	//     Map({ id: 1, done: false, text: 'TODO 2',editMode:false }),
-	//     Map({ id: 2, done: false, text: 'TODO 1',editMode:false }),
-	//     Map({ id: 3, done: false, text: 'TODO 1',editMode:false })   
-	//   ]),
-	//   filterVal:List([
-	//      Map({ id: 0,active: true,  val: 'All'}),
-	//      Map({ id: 1,active: false,  val: 'Finished'}),
-	//      Map({ id: 2,active: false,  val: 'Pending'})
-	//   ])
-	// });
+	const initalData = Map({
+	  todos:List([
+	    Map({ id: 0, done: true,  text: 'TODO 1',editMode:false }),
+	    Map({ id: 1, done: false, text: 'TODO 2',editMode:false }),
+	    Map({ id: 2, done: false, text: 'TODO 1',editMode:false }),
+	    Map({ id: 3, done: false, text: 'TODO 1',editMode:false })    
+	  ]),
+	  filterVal:List([
+	     Map({ id: 0,active: true,  val: 'All'}),
+	     Map({ id: 1,active: false,  val: 'Finished'}),
+	     Map({ id: 2,active: false,  val: 'Pending'})
+	  ])
+	});*/
+
 	var uid = function uid() {
 	  return Math.random().toString(4).slice(3);
 	};
 
-	function reducer() {
-	  var storeData = arguments.length <= 0 || arguments[0] === undefined ? initalData : arguments[0];
-	  var action = arguments[1];
-
-	  console.log("-----action---");
-	  console.log(action.type);
-	  switch (action.type) {
-	    case 'ADD_TODO':
-	      return storeData.update('todos', function (todos) {
-	        return todos.push((0, _immutable.Map)({ 'text': action.text,
-	          'id': uid(),
-	          'done': false
-	        }));
-	      });
-	    case 'DELETE_TODO':
-	      return storeData.update('todos', function (todos) {
-	        return todos.filter(function (t) {
-	          return t.get('id') !== action.id;
-	        });
-	      });
-	    case 'TOGGLE_TODO':
-	      return storeData.update('todos', function (todos) {
-	        return todos.map(function (t) {
-	          if (t.get('id') === action.id) {
-	            return t.update('done', function (done) {
-	              return !done;
-	            });
-	          } else {
-	            return t;
-	          }
-	        });
-	      });
-	    case 'ENABLE_EDIT_TODO':
-	      return storeData.update('todos', function (todos) {
-	        return todos.map(function (t) {
-	          if (t.get('id') === action.id) {
-	            return t.update('editMode', function (editMode) {
-	              return !editMode;
-	            });
-	          } else {
-	            return t;
-	          }
-	        });
-	      });
-	    case 'EDIT_TODO':
-	      return storeData.update('todos', function (todos) {
-	        return todos.map(function (t) {
-	          if (t.get('id') === action.id) {
-	            return t.merge({ text: action.text, editMode: false });
-	          } else {
-	            return t;
-	          }
-	        });
-	      });
-
-	    case 'FILTER_TODO':
-	      return storeData.update('filterVal', function (filterVal) {
-	        return filterVal.map(function (f) {
-	          if (f.get('val') === action.val) {
-	            return f.update('active', function () {
-	              return true;
-	            });
-	          } else {
-	            return f.update('active', function () {
-	              return false;
-	            });
-	          }
-	        });
-	      });
-	    default:
-	      return storeData;
-	  }
-	}
-
-	/*const todos = (storeData=Map(), action) => {
+	/*export default function reducer(storeData=initalData, action) {
 	  console.log("-----action---");
 	  console.log(action.type);  
 	  switch(action.type) {
@@ -22084,17 +22012,9 @@
 	                                                    return t;
 	                                                  }
 	                                                })
-	      );  
-	   default:
-	      return storeData;  
-	      
-	  }
-	}
-	const filterVal = (storeData= Map(), action) => {
-	    console.log("-----action---");
-	    console.log(action.type);  
-	    switch(action.type) {
-	      case 'FILTER_TODO':
+	      );
+	    
+	    case 'FILTER_TODO':
 	        return storeData.update('filterVal', filterVal => filterVal.map(f => {
 	                                                  if(f.get('val') === action.val) {
 	                                                    return  f.update('active', () => true);
@@ -22105,22 +22025,93 @@
 	        );
 	    default:
 	      return storeData;
-	  
 	  }
-	}
+	}*/
 
+	/*** Ideal to break in todoreducer module***/
 
-	const reducer = combineReducers({  
-	  todos,
-	  filterVal
-	})
-	// const reducer = combineReducers(Map({
-	//   todos,
-	//   filterVal  
-	// })); 
+	//import { combineReducers } from 'redux'
+	var todos = function todos() {
+	  var todos = arguments.length <= 0 || arguments[0] === undefined ? (0, _immutable.List)([]) : arguments[0];
+	  var action = arguments[1];
 
+	  console.log("-----action from todos---");
+	  console.log(action.type);
+	  switch (action.type) {
+	    case 'ADD_TODO':
+	      return todos.push((0, _immutable.Map)({ 'text': action.text,
+	        'id': uid(),
+	        'done': false
+	      }));
+	    case 'DELETE_TODO':
+	      return todos.filter(function (t) {
+	        return t.get('id') !== action.id;
+	      });
+	    case 'TOGGLE_TODO':
+	      return todos.map(function (todo) {
+	        if (todo.get('id') === action.id) {
+	          return todo.update('done', function (done) {
+	            return !done;
+	          });
+	        } else {
+	          return todo;
+	        }
+	      });
+	    case 'ENABLE_EDIT_TODO':
+	      return todos.map(function (t) {
+	        if (t.get('id') === action.id) {
+	          return t.update('editMode', function (editMode) {
+	            return !editMode;
+	          });
+	        } else {
+	          return t;
+	        }
+	      });
+	    case 'EDIT_TODO':
+	      return todos.map(function (t) {
+	        if (t.get('id') === action.id) {
+	          return t.merge({ text: action.text, editMode: false });
+	        } else {
+	          return t;
+	        }
+	      });
+	    default:
+	      return todos;
+	  }
+	};
 
-	export default reducer*/
+	/*** Ideal to break in filterReducer module***/
+	var filterVal = function filterVal() {
+	  var filterVal = arguments.length <= 0 || arguments[0] === undefined ? (0, _immutable.List)([]) : arguments[0];
+	  var action = arguments[1];
+
+	  console.log("-----action from filter---");
+	  console.log(action.type);
+	  switch (action.type) {
+	    case 'FILTER_TODO':
+	      return filterVal.map(function (f) {
+	        if (f.get('val') === action.val) {
+	          return f.update('active', function () {
+	            return true;
+	          });
+	        } else {
+	          return f.update('active', function () {
+	            return false;
+	          });
+	        }
+	      });
+	    default:
+	      return filterVal;
+
+	  }
+	};
+
+	exports.default = (0, _reduxImmutable.combineReducers)({
+	  todos: todos,
+	  filterVal: filterVal
+	});
+
+	//export default reducer
 
 /***/ },
 /* 191 */
@@ -27466,6 +27457,218 @@
 	    )
 	  );
 	}
+
+/***/ },
+/* 198 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.combineReducers = undefined;
+
+	var _combineReducers = __webpack_require__(199);
+
+	var _combineReducers2 = _interopRequireDefault(_combineReducers);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.combineReducers = _combineReducers2.default;
+	//# sourceMappingURL=index.js.map
+
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _utilities = __webpack_require__(200);
+
+	var _immutable = __webpack_require__(191);
+
+	var _immutable2 = _interopRequireDefault(_immutable);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/* eslint-disable lodash3/prefer-lodash-method */
+
+	exports.default = function (reducers) {
+	    var reducerKeys = undefined;
+
+	    reducerKeys = Object.keys(reducers);
+
+	    return function (inputState, action) {
+	        if (inputState === undefined) {
+	            inputState = _immutable2.default.Map();
+	        }
+
+	        /* eslint-disable no-process-env */
+	        if (process.env.NODE_ENV !== 'production') {
+	            /* eslint-enable no-process-env */
+	            var warningMessage = undefined;
+
+	            warningMessage = (0, _utilities.getUnexpectedInvocationParameterMessage)(inputState, reducers, action);
+
+	            if (warningMessage) {
+	                /* eslint-disable no-console */
+	                console.error(warningMessage);
+	                /* eslint-enable no-console */
+	            }
+	        }
+
+	        return inputState.withMutations(function (temporaryState) {
+	            reducerKeys.forEach(function (reducerName) {
+	                var currentDomainState = undefined,
+	                    nextDomainState = undefined,
+	                    reducer = undefined;
+
+	                reducer = reducers[reducerName];
+
+	                currentDomainState = temporaryState.get(reducerName);
+
+	                nextDomainState = reducer(currentDomainState, action);
+
+	                (0, _utilities.validateNextState)(nextDomainState, reducerName, action);
+
+	                temporaryState.set(reducerName, nextDomainState);
+	            });
+	        });
+	    };
+	};
+
+	module.exports = exports['default'];
+	//# sourceMappingURL=combineReducers.js.map
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	'create index';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.validateNextState = exports.getUnexpectedInvocationParameterMessage = exports.getStateName = undefined;
+
+	var _getStateName2 = __webpack_require__(201);
+
+	var _getStateName3 = _interopRequireDefault(_getStateName2);
+
+	var _getUnexpectedInvocationParameterMessage2 = __webpack_require__(202);
+
+	var _getUnexpectedInvocationParameterMessage3 = _interopRequireDefault(_getUnexpectedInvocationParameterMessage2);
+
+	var _validateNextState2 = __webpack_require__(203);
+
+	var _validateNextState3 = _interopRequireDefault(_validateNextState2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.getStateName = _getStateName3.default;
+	exports.getUnexpectedInvocationParameterMessage = _getUnexpectedInvocationParameterMessage3.default;
+	exports.validateNextState = _validateNextState3.default;
+	//# sourceMappingURL=index.js.map
+
+
+/***/ },
+/* 201 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	exports.default = function (action) {
+	    return action && action.type === '@@redux/INIT' ? 'initialState argument passed to createStore' : 'previous state received by the reducer';
+	};
+
+	module.exports = exports['default'];
+	//# sourceMappingURL=getStateName.js.map
+
+
+/***/ },
+/* 202 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _immutable = __webpack_require__(191);
+
+	var _immutable2 = _interopRequireDefault(_immutable);
+
+	var _getStateName = __webpack_require__(201);
+
+	var _getStateName2 = _interopRequireDefault(_getStateName);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/* eslint-disable lodash3/prefer-lodash-method */
+
+	exports.default = function (state, reducers, action) {
+	    var reducerNames = Object.keys(reducers);
+
+	    if (!reducerNames.length) {
+	        return 'Store does not have a valid reducer. Make sure the argument passed to combineReducers is an object whose values are reducers.';
+	    }
+
+	    var stateName = (0, _getStateName2.default)(action);
+
+	    if (!_immutable2.default.Iterable.isIterable(state)) {
+	        return 'The ' + stateName + ' is of unexpected type. Expected argument to be an instance of Immutable.Iterable with the following properties: "' + reducerNames.join('", "') + '".';
+	    }
+
+	    var unexpectedStatePropertyNames = state.keySeq().toArray().filter(function (name) {
+	        return !reducers.hasOwnProperty(name);
+	    });
+
+	    if (unexpectedStatePropertyNames.length > 0) {
+	        return 'Unexpected ' + (unexpectedStatePropertyNames.length === 1 ? 'property' : 'properties') + ' "' + unexpectedStatePropertyNames.join('", "') + '" found in ' + stateName + '. Expected to find one of the known reducer property names instead: "' + reducerNames.join('", "') + '". Unexpected properties will be ignored.';
+	    }
+
+	    return null;
+	};
+
+	module.exports = exports['default'];
+	//# sourceMappingURL=getUnexpectedInvocationParameterMessage.js.map
+
+
+/***/ },
+/* 203 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	exports.default = function (nextState, reducerName, action) {
+	    if (typeof nextState === 'undefined') {
+	        throw new Error('Reducer "' + reducerName + '" returned undefined when handling "' + action.type + '" action. To ignore an action, you must explicitly return the previous state.');
+	    }
+
+	    return null;
+	};
+
+	module.exports = exports['default'];
+	//# sourceMappingURL=validateNextState.js.map
+
 
 /***/ }
 /******/ ]);
