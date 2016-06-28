@@ -3,6 +3,8 @@ const DELETE_TODO = 'DELETE_TODO'
 const TOGGLE_TODO = 'TOGGLE_TODO'
 const EDIT_TODO = 'EDIT_TODO'
 const ENABLE_EDIT_TODO = 'ENABLE_EDIT_TODO'
+const FILTER_TODO = 'FILTER_TODO'
+
 
 
 export function addTodo(text) {
@@ -22,4 +24,7 @@ export function editTodo(id,text) {
 }
 export function enableEditTodo(id) {
   return { type: ENABLE_EDIT_TODO, id }
+}
+export function filterTodo(val) {
+  return { type: FILTER_TODO, val }
 }

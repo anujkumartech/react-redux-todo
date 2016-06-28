@@ -62,14 +62,27 @@
 
 	var _todoListConnector = __webpack_require__(192);
 
+	var _filterLinkConnector = __webpack_require__(196);
+
+	var _immutable = __webpack_require__(191);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var store = (0, _redux.createStore)(_reducers2.default);
+	var initalData = (0, _immutable.Map)({
+	  todos: (0, _immutable.List)([(0, _immutable.Map)({ id: 0, done: true, text: 'TODO 1', editMode: false }), (0, _immutable.Map)({ id: 1, done: false, text: 'TODO 2', editMode: false }), (0, _immutable.Map)({ id: 2, done: false, text: 'TODO 3', editMode: false }), (0, _immutable.Map)({ id: 3, done: false, text: 'TODO 45', editMode: false })]),
+	  filterVal: (0, _immutable.List)([(0, _immutable.Map)({ id: 0, active: true, val: 'All' }), (0, _immutable.Map)({ id: 1, active: false, val: 'Finished' }), (0, _immutable.Map)({ id: 2, active: false, val: 'Pending' })])
+	});
+	var store = (0, _redux.createStore)(_reducers2.default, initalData);
 
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRedux.Provider,
 	  { store: store },
-	  _react2.default.createElement(_todoListConnector.TodoList, null)
+	  _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(_filterLinkConnector.FilterLink, null),
+	    _react2.default.createElement(_todoListConnector.TodoList, null)
+	  )
 	), document.getElementById('app'));
 
 /***/ },
@@ -21930,12 +21943,28 @@
 
 	var _immutable = __webpack_require__(191);
 
-	var init = (0, _immutable.List)([(0, _immutable.Map)({ id: 0, done: true, text: 'TODO 1', editMode: false }), (0, _immutable.Map)({ id: 1, done: false, text: 'TODO 2', editMode: false }), (0, _immutable.Map)({ id: 2, done: false, text: 'TODO 1', editMode: false }), (0, _immutable.Map)({ id: 3, done: false, text: 'TODO 1', editMode: false })]);
+	var _redux = __webpack_require__(168);
 
-	var initalData = (0, _immutable.Map)({
-	  todos: (0, _immutable.List)([(0, _immutable.Map)({ id: 0, done: true, text: 'TODO 1', editMode: false }), (0, _immutable.Map)({ id: 1, done: false, text: 'TODO 2', editMode: false }), (0, _immutable.Map)({ id: 2, done: false, text: 'TODO 1', editMode: false }), (0, _immutable.Map)({ id: 3, done: false, text: 'TODO 1', editMode: false })]),
-	  filterVal: 'All'
-	});
+	// const init = List([
+	//   Map({ id: 0, done: true,  text: 'TODO 1',editMode:false }),
+	//   Map({ id: 1, done: false, text: 'TODO 2',editMode:false }),
+	//   Map({ id: 2, done: false, text: 'TODO 1',editMode:false }),
+	//   Map({ id: 3, done: false, text: 'TODO 1',editMode:false })   
+	// ]);
+
+	// const initalData = Map({
+	//   todos:List([
+	//     Map({ id: 0, done: true,  text: 'TODO 1',editMode:false }),
+	//     Map({ id: 1, done: false, text: 'TODO 2',editMode:false }),
+	//     Map({ id: 2, done: false, text: 'TODO 1',editMode:false }),
+	//     Map({ id: 3, done: false, text: 'TODO 1',editMode:false })   
+	//   ]),
+	//   filterVal:List([
+	//      Map({ id: 0,active: true,  val: 'All'}),
+	//      Map({ id: 1,active: false,  val: 'Finished'}),
+	//      Map({ id: 2,active: false,  val: 'Pending'})
+	//   ])
+	// });
 	var uid = function uid() {
 	  return Math.random().toString(4).slice(3);
 	};
@@ -21994,10 +22023,104 @@
 	          }
 	        });
 	      });
+
+	    case 'FILTER_TODO':
+	      return storeData.update('filterVal', function (filterVal) {
+	        return filterVal.map(function (f) {
+	          if (f.get('val') === action.val) {
+	            return f.update('active', function () {
+	              return true;
+	            });
+	          } else {
+	            return f.update('active', function () {
+	              return false;
+	            });
+	          }
+	        });
+	      });
 	    default:
 	      return storeData;
 	  }
 	}
+
+	/*const todos = (storeData=Map(), action) => {
+	  console.log("-----action---");
+	  console.log(action.type);  
+	  switch(action.type) {
+	    case 'ADD_TODO':
+	      return storeData.update('todos', todos =>todos.push(Map({'text':action.text,
+	                                                                'id':uid(),
+	                                                                'done':false      
+	                                                          }))
+	                        );  
+	    case 'DELETE_TODO':
+	         return storeData.update('todos', todos => todos.filter((t) => {
+	                                                      return  t.get('id') !== action.id
+	                                                   })
+	         );                   
+	    case 'TOGGLE_TODO':
+	       return storeData.update('todos', todos => todos.map(t => {
+	                                                    if(t.get('id') === action.id) {
+	                                                      return t.update('done', done => !done);
+	                                                    } else {
+	                                                      return t;
+	                                                    }
+	                                                  })
+	       );
+	    case 'ENABLE_EDIT_TODO':
+	       return storeData.update('todos', todos => todos.map(t => {
+	                                                  if(t.get('id') === action.id) {
+	                                                    return t.update('editMode', editMode => !editMode);
+	                                                  } else {
+	                                                    return t;
+	                                                  }
+	                                                 })
+	      ); 
+	    case 'EDIT_TODO':
+	      return storeData.update('todos', todos => todos.map(t => {
+	                                                  if(t.get('id') === action.id) {
+	                                                    return t.merge({text:action.text,editMode:false});
+	                                                  } else {
+	                                                    return t;
+	                                                  }
+	                                                })
+	      );  
+	   default:
+	      return storeData;  
+	      
+	  }
+	}
+	const filterVal = (storeData= Map(), action) => {
+	    console.log("-----action---");
+	    console.log(action.type);  
+	    switch(action.type) {
+	      case 'FILTER_TODO':
+	        return storeData.update('filterVal', filterVal => filterVal.map(f => {
+	                                                  if(f.get('val') === action.val) {
+	                                                    return  f.update('active', () => true);
+	                                                  } else {
+	                                                    return f.update('active', () => false);
+	                                                  }
+	                                                })
+	        );
+	    default:
+	      return storeData;
+	  
+	  }
+	}
+
+
+	const reducer = combineReducers({  
+	  todos,
+	  filterVal
+	})
+	// const reducer = combineReducers(Map({
+	//   todos,
+	//   filterVal  
+	// })); 
+
+
+	export default reducer*/
 
 /***/ },
 /* 191 */
@@ -27005,7 +27128,7 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	var TodoList = exports.TodoList = (0, _reactRedux.connect)(function mapStateToProps(state) {
-	  return { todos: state.get("todos") };
+	  return { todos: filterTodos(state).get("todos") };
 	}, function mapDispatchToProps(dispatch) {
 	  return {
 	    addTodo: function addTodo(text) {
@@ -27025,6 +27148,34 @@
 	    }
 	  };
 	})(components.TodoList);
+
+	var filterTodos = function filterTodos(storeData) {
+	  var filters = storeData.get('filterVal');
+	  var filterValue = '';
+	  filters.map(function (f) {
+	    if (f.get('active') === true) {
+	      filterValue = f.get('val');
+	    }
+	  });
+	  switch (filterValue) {
+	    case 'All':
+	      return storeData;
+	    case 'Finished':
+	      return storeData.update('todos', function (todos) {
+	        return todos.filter(function (t) {
+	          return t.get('done');
+	        });
+	      });
+	    case 'Pending':
+	      return storeData.update('todos', function (todos) {
+	        return todos.filter(function (t) {
+	          return !t.get('done');
+	        });
+	      });
+	    default:
+	      return storeData;
+	  }
+	};
 
 /***/ },
 /* 193 */
@@ -27183,11 +27334,13 @@
 	exports.toggleTodo = toggleTodo;
 	exports.editTodo = editTodo;
 	exports.enableEditTodo = enableEditTodo;
+	exports.filterTodo = filterTodo;
 	var ADD_TODO = 'ADD_TODO';
 	var DELETE_TODO = 'DELETE_TODO';
 	var TOGGLE_TODO = 'TOGGLE_TODO';
 	var EDIT_TODO = 'EDIT_TODO';
 	var ENABLE_EDIT_TODO = 'ENABLE_EDIT_TODO';
+	var FILTER_TODO = 'FILTER_TODO';
 
 	function addTodo(text) {
 	  return { type: ADD_TODO, text: text };
@@ -27206,6 +27359,112 @@
 	}
 	function enableEditTodo(id) {
 	  return { type: ENABLE_EDIT_TODO, id: id };
+	}
+	function filterTodo(val) {
+	  return { type: FILTER_TODO, val: val };
+	}
+
+/***/ },
+/* 196 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.FilterLink = undefined;
+
+	var _reactRedux = __webpack_require__(181);
+
+	var _filterLink = __webpack_require__(197);
+
+	var _action = __webpack_require__(195);
+
+	var FilterLink = exports.FilterLink = (0, _reactRedux.connect)(function mapStateToProps(state) {
+	  return { filterVal: state.get("filterVal") };
+	}, function mapDispatchToProps(dispatch) {
+	  return {
+	    filterTodo: function filterTodo(val) {
+	      return dispatch((0, _action.filterTodo)(val));
+	    }
+	  };
+	})(_filterLink.FilterLinks);
+
+/***/ },
+/* 197 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.FilterLinks = FilterLinks;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function FilterLinks(props) {
+	  var filterVal = props.filterVal;
+	  var filterTodo = props.filterTodo;
+
+	  //   const onSubmit = (event) => {
+	  //     const input = event.target;
+	  //     const text = input.value;
+	  //     const enterPressed = (event.which == 13);
+	  //     const validText = text.length > 0;
+
+	  //     if(enterPressed && validText) {     
+	  //       addTodo(text);
+	  //       input.value = '';
+	  //     }
+	  //   };   
+
+	  //  const updateTodo = (event,id) => {
+	  //     const input = event.target;
+	  //     const text = input.value;
+	  //     const enterPressed = (event.which == 13);
+	  //     const validText = text.length > 0;
+	  //     if(enterPressed && validText) {     
+	  //       editTodo(id,text);
+	  //       input.value = '';
+	  //     }
+	  //   };
+	  //   console.log(todos);
+
+	  //    {filterVal.map(filter => (
+	  //         <a class="navbar-brand" href="#">filter</a>
+	  //     ))}
+
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "row" },
+	    _react2.default.createElement(
+	      "nav",
+	      { className: "navbar navbar-default" },
+	      _react2.default.createElement(
+	        "ul",
+	        { className: "nav navbar-nav" },
+	        filterVal.map(function (f) {
+	          return _react2.default.createElement(
+	            "li",
+	            { key: f.get('id'), className: f.get('active') === true ? 'active' : '', onClick: function onClick() {
+	                filterTodo(f.get('val'));
+	              } },
+	            _react2.default.createElement(
+	              "a",
+	              { href: "#" },
+	              f.get('val')
+	            )
+	          );
+	        })
+	      )
+	    )
+	  );
 	}
 
 /***/ }
