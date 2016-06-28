@@ -1,0 +1,19 @@
+.dis-inline{
+    display: inline-block;
+}
+.done-todo{
+    text-decoration: line-through;
+}
+.margin-left-btn{
+    margin-right: 50px;
+}
+input{
+    margin-top: 10px;
+}
+input.dis-inline{
+    width: auto;
+    margin-left: 20px;
+}
+body{
+    margin: 2% auto;
+}
