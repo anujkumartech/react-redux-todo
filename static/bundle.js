@@ -27430,6 +27430,10 @@
 
 	var _todo2 = _interopRequireDefault(_todo);
 
+	var _inputCompoent = __webpack_require__(206);
+
+	var _inputCompoent2 = _interopRequireDefault(_inputCompoent);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27507,10 +27511,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'row' },
-	        _react2.default.createElement('input', { type: 'text',
-	          className: 'form-control',
-	          placeholder: 'Add New Todo',
-	          onKeyDown: this.onSubmit }),
+	        _react2.default.createElement(_inputCompoent2.default, { classNameValue: 'form-control', placeHolderValue: 'Add New Todo', keyDownFunction: this.onSubmit }),
 	        _react2.default.createElement(
 	          'ul',
 	          { className: 'list-group' },
@@ -27557,7 +27558,7 @@
 /* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -27566,6 +27567,14 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _inputCompoent = __webpack_require__(206);
+
+	var _inputCompoent2 = _interopRequireDefault(_inputCompoent);
+
+	var _buttonComponent = __webpack_require__(207);
+
+	var _buttonComponent2 = _interopRequireDefault(_buttonComponent);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27576,24 +27585,16 @@
 	    var enableEdit = _ref.enableEdit;
 	    var editTodofunction = _ref.editTodofunction;
 	    return _react2.default.createElement(
-	        "div",
-	        { className: "dis-inline" },
+	        'div',
+	        { className: 'dis-inline' },
+	        _react2.default.createElement(_buttonComponent2.default, { classNameValue: 'btn btn-danger margin-left-btn', clickFunction: deletefunction, textVal: 'Delete' }),
+	        _react2.default.createElement(_buttonComponent2.default, { classNameValue: 'btn btn-info margin-left-btn', clickFunction: enableEdit, textVal: 'Edit' }),
 	        _react2.default.createElement(
-	            "button",
-	            { className: "btn btn-danger margin-left-btn", onClick: deletefunction },
-	            "Delete"
-	        ),
-	        _react2.default.createElement(
-	            "button",
-	            { className: "btn btn-info margin-left-btn", onClick: enableEdit },
-	            "Edit"
-	        ),
-	        _react2.default.createElement(
-	            "span",
+	            'span',
 	            { className: todo.done ? "done-todo" : "", onClick: togglefunction },
 	            todo.text
 	        ),
-	        _react2.default.createElement("input", { className: todo.editMode ? "dis-inline form-control margin-left-btn" : "hidden", type: "text", placeholder: "new value", onKeyDown: editTodofunction })
+	        _react2.default.createElement(_inputCompoent2.default, { classNameValue: todo.editMode ? "dis-inline form-control margin-left-btn" : "hidden", placeHolderValue: 'new value', keyDownFunction: editTodofunction })
 	    );
 	};
 
@@ -27603,12 +27604,6 @@
 	    togglefunction: _react.PropTypes.func.isRequired,
 	    enableEdit: _react.PropTypes.func.isRequired
 	};
-	// Todo.propTypes = {
-	//   onClick: PropTypes.func.isRequired,
-	//   completed: PropTypes.bool.isRequired,
-	//   text: PropTypes.string.isRequired
-	// }
-	//<button className={todo.editMode ? "btn btn-info margin-left-btn": "btn btn-info margin-left-btn hidden"}  onClick={enableEdit}>Update</button>
 	exports.default = Todo;
 
 /***/ },
@@ -37628,6 +37623,70 @@
 	thunk.withExtraArgument = createThunkMiddleware;
 
 	exports['default'] = thunk;
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Input = function Input(_ref) {
+	    var classNameValue = _ref.classNameValue;
+	    var placeHolderValue = _ref.placeHolderValue;
+	    var keyDownFunction = _ref.keyDownFunction;
+	    return _react2.default.createElement("input", { className: classNameValue, type: "text", placeholder: placeHolderValue, onKeyDown: keyDownFunction });
+	};
+
+	Input.propTypes = {
+	    classNameValue: _react.PropTypes.string.isRequired,
+	    placeHolderValue: _react.PropTypes.string.isRequired,
+	    keyDownFunction: _react.PropTypes.func
+	};
+	exports.default = Input;
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Button = function Button(_ref) {
+	    var classNameValue = _ref.classNameValue;
+	    var textVal = _ref.textVal;
+	    var clickFunction = _ref.clickFunction;
+	    return _react2.default.createElement(
+	        'button',
+	        { className: classNameValue, onClick: clickFunction },
+	        textVal
+	    );
+	};
+
+	Button.propTypes = {
+	    classNameValue: _react.PropTypes.string.isRequired,
+	    textVal: _react.PropTypes.string.isRequired,
+	    clickFunction: _react.PropTypes.func.isRequired
+	};
+	exports.default = Button;
 
 /***/ }
 /******/ ]);

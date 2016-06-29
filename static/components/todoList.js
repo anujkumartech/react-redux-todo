@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Todo from './todo'
+import Input from './core/inputCompoent'
 
 export class TodoList extends Component {
    constructor(props) {
@@ -42,10 +43,7 @@ export class TodoList extends Component {
    render(){
     const { todos, toggleTodo, addTodo,deleteTodo,enableEditTodo,editTodo} = this.props;
     return(<div className='row'>
-              <input type='text'
-                    className='form-control'
-                    placeholder='Add New Todo'
-                    onKeyDown={this.onSubmit} />
+              <Input classNameValue="form-control" placeHolderValue="Add New Todo" keyDownFunction={this.onSubmit}/>
               <ul className='list-group'>
                 {todos.map(t => (
                   <li key={t.get('id')}
