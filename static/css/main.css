@@ -17,3 +17,6 @@ input.dis-inline{
 body{
     margin: 2% auto;
 }
+.center-align-text{
+    text-align: center;
+}

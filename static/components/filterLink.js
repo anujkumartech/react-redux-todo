@@ -37,7 +37,7 @@ export function FilterLinks(props) {
             <ul className="nav navbar-nav">
             {filterVal.map((f) => (
                 <li key={f.get('id')} className={f.get('active') === true ? 'active':''} onClick={() =>{filterTodo(f.get('val'))}}><a href="#">{f.get('val')}</a></li>
-            ))}
+            ))}            
             </ul>
         </nav>
     </div>

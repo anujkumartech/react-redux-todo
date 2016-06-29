@@ -1,3 +1,6 @@
+import $ from  'jquery'
+import { List, Map } from 'immutable';
+const FETCH_TODO = 'FETCH_TODO'
 const ADD_TODO = 'ADD_TODO'
 const DELETE_TODO = 'DELETE_TODO'
 const TOGGLE_TODO = 'TOGGLE_TODO'
@@ -7,6 +10,9 @@ const FILTER_TODO = 'FILTER_TODO'
 
 
 
+export function fetchTodoAction(todoData) {
+  return { type: FETCH_TODO,todoData}
+}
 export function addTodo(text) {
   return { type: ADD_TODO, text }
 }
@@ -27,4 +33,12 @@ export function enableEditTodo(id) {
 }
 export function filterTodo(val) {
   return { type: FILTER_TODO, val }
+}
+
+export function fetchTodo() {
+    return dispatch => {
+      $.get('api/todoList',function(data, status){
+        dispatch(fetchTodoAction(data));
+      });
+  }; 
 }

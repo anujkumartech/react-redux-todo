@@ -54,9 +54,12 @@ app.get('/api/todoList', function(req, res) {
       console.error(err);
       process.exit(1);
     }
-    res.json(JSON.parse(data));
+    setTimeout(function(){
+      res.json(JSON.parse(data));
+    },2000);
+    
   });
-});
+}); 
 
 
 app.post('/api/todoadd', function(req, res) {

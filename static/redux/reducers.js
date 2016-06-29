@@ -3,6 +3,7 @@ import { List, Map } from 'immutable';
 //import { combineReducers } from 'redux'
 import {  combineReducers } from 'redux-immutable';
 
+
 /*const init = List([
   Map({ id: 0, done: true,  text: 'TODO 1',editMode:false }),
   Map({ id: 1, done: false, text: 'TODO 2',editMode:false }),
@@ -88,7 +89,13 @@ const uid = () => Math.random().toString(4).slice(3);
 const todos = (todos = List([]), action) => {
   console.log("-----action from todos---");
   console.log(action.type);
-  switch(action.type) {
+  switch(action.type) { 
+     case 'FETCH_TODO':
+      action.todoData.map(todo =>{
+       todos = todos.push(Map(todo));
+      });
+      return todos;
+      
     case 'ADD_TODO':
       return todos.push(Map({'text':action.text,
                 'id':uid(),

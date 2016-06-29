@@ -1,42 +1,5 @@
-[
-    {
-        "text": "todo 1",
-        "key": 0,
-        "done": false
-    },
-    {
-        "text": "todo 2",
-        "key": 1,
-        "done": true
-    },
-    {
-        "key": 2,
-        "text": "todo 3",
-        "done": false
-    },
-    {
-        "key": 3,
-        "text": "todo 4",
-        "done": false
-    },
-    {
-        "key": 4,
-        "text": "todo 5",
-        "done": false
-    },
-    {
-        "key": 5,
-        "text": "todo 6",
-        "done": false
-    },
-    {
-        "key": 6,
-        "text": "todo 7",
-        "done": false
-    },
-    {
-        "key": 7,
-        "text": "todo 8",
-        "done": false
-    }
-]
+
+   [ { "id": 0, "done": true,  "text": "TODO 1","editMode":false },
+    { "id": 1, "done": false, "text": "TODO 2","editMode":false },
+    { "id": 2, "done": false, "text": "TODO 3","editMode":false },
+    { "id": 3, "done": false, "text": "TODO 45","editMode":false } ]  
