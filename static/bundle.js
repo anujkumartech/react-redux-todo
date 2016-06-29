@@ -27438,66 +27438,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	/*export function TodoList(props) {
-	  const { todos, toggleTodo, addTodo,deleteTodo,enableEditTodo,editTodo} = props;
-
-	  const onSubmit = (event) => {
-	    const input = event.target;
-	    const text = input.value;
-	    const enterPressed = (event.which == 13);
-	    const validText = text.length > 0;
-
-	    if(enterPressed && validText) {      
-	      addTodo(text);
-	      input.value = '';
-	    }
-	  };    
-	  
-	 const updateTodo = (event,id) => {
-	    const input = event.target;
-	    const text = input.value;
-	    const enterPressed = (event.which == 13);
-	    const validText = text.length > 0;
-	    if(enterPressed && validText) {      
-	      editTodo(id,text);
-	      input.value = '';
-	    }
-	  };
-	  console.log(todos);
-
-	  return (
-	    <div className='row'>
-	      <input type='text'
-	             className='form-control'
-	             placeholder='Add New Todo'
-	             onKeyDown={onSubmit} />
-	      <ul className='list-group'>
-	        {todos.map(t => (
-	          <li key={t.get('id')}
-	              className='list-group-item'
-	           >
-	            <Todo todo={t.toJS()} togglefunction = {()   const onSubmit = (event) => {
-	    const input = event.target;
-	    const text = input.value;
-	    const enterPressed = (event.which == 13);
-	    const validText = text.length > 0;
-
-	    if(enterPressed && validText) {      
-	      addTodo(text);
-	      input.value = '';
-	    }
-	  };  => toggleTodo(t.get('id'))} deletefunction = {() => deleteTodo(t.get('id'))} enableEdit={() => enableEditTodo(t.get('id'))}  editTodofunction = {(event) => updateTodo(event,t.get('id'))}/>
-	          </li>
-	        ))}
-	      </ul>
-	    </div>
-	  );
-	}*/
-
 	var TodoList = exports.TodoList = function (_Component) {
 	  _inherits(TodoList, _Component);
-
-	  //const { todos, toggleTodo, addTodo,deleteTodo,enableEditTodo,editTodo} = props;
 
 	  function TodoList(props) {
 	    _classCallCheck(this, TodoList);
@@ -27506,6 +27448,7 @@
 
 	    _this.onSubmit = _this.onSubmit.bind(_this);
 	    _this.updateTodo = _this.updateTodo.bind(_this);
+	    _this.initilze = true;
 	    return _this;
 	  }
 
@@ -27519,7 +27462,7 @@
 	      if (enterPressed && validText) {
 	        this.props.addTodo(text);
 	        input.value = '';
-	      }
+	      };
 	    }
 	  }, {
 	    key: 'updateTodo',
@@ -27531,16 +27474,22 @@
 	      if (enterPressed && validText) {
 	        this.props.editTodo(id, text);
 	        input.value = '';
-	      }
+	      };
 	    }
 	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      console.log("component will mount render done");
-	      console.log(this.props.todos.size);
 	      if (this.props.todos.size === 0) {
+	        this.initilze = false;
 	        this.props.fetchTodo();
-	      }
+	      };
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.todos.size > 0) {
+	        this.initilze = true;
+	      };
 	    }
 	  }, {
 	    key: 'render',
@@ -27581,11 +27530,20 @@
 	                  return _this2.updateTodo(event, t.get('id'));
 	                } })
 	            );
-	          })
+	          }),
+	          todos.size === 0 && this.initilze === true ? _react2.default.createElement(
+	            'li',
+	            { className: 'list-group-item center-align-text' },
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              'No Todos to show'
+	            )
+	          ) : null
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: todos.size > 0 ? 'hidden' : 'row center-align-text' },
+	          { className: this.initilze == true ? 'hidden' : 'row center-align-text' },
 	          _react2.default.createElement('i', { className: 'fa fa-3x fa-circle-o-notch fa-spin' })
 	        )
 	      );
