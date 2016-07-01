@@ -23,9 +23,11 @@
     "react-dom": "^15.0.2",
     "react-faux-dom": "^2.5.0",
     "react-redux": "^4.4.5",
-    "react-router": "^2.4.0",
+    "react-router": "^2.5.1",
+    "react-router-redux": "^4.0.5",
     "redux": "^3.4.0",
     "redux-immutable": "^3.0.6",
+    "redux-router": "^2.0.0",
     "redux-thunk": "^2.1.0"
   },
   "devDependencies": {

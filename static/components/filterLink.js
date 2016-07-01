@@ -31,12 +31,18 @@ export function FilterLinks(props) {
     //    {filterVal.map(filter => (
     //         <a class="navbar-brand" href="#">filter</a>
     //     ))}
+
+  const preventEvent = (e,val) =>{
+       filterTodo(val);
+       e.stopPropagation();
+       e.nativeEvent.stopImmediatePropagation();
+  }  
   return (
     <div className="row">
         <nav className="navbar navbar-default">
             <ul className="nav navbar-nav">
             {filterVal.map((f) => (
-                <li key={f.get('id')} className={f.get('active') === true ? 'active':''} onClick={() =>{filterTodo(f.get('val'))}}><a href="#">{f.get('val')}</a></li>
+                <li key={f.get('id')} className={f.get('active') === true ? 'active':''} onClick={() =>{filterTodo(f.get('val'))}}><a onClick ={(e) => preventEvent(e,f.get('val'))}>{f.get('val')}</a></li>
             ))}            
             </ul>
         </nav>

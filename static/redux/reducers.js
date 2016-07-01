@@ -1,30 +1,10 @@
 
-import { List, Map } from 'immutable';
-//import { combineReducers } from 'redux'
+import Immutable  from 'immutable';
 import {  combineReducers } from 'redux-immutable';
+import {LOCATION_CHANGE} from 'react-router-redux'
 
-
-/*const init = List([
-  Map({ id: 0, done: true,  text: 'TODO 1',editMode:false }),
-  Map({ id: 1, done: false, text: 'TODO 2',editMode:false }),
-  Map({ id: 2, done: false, text: 'TODO 1',editMode:false }),
-  Map({ id: 3, done: false, text: 'TODO 1',editMode:false })    
-]);
-
-const initalData = Map({
-  todos:List([
-    Map({ id: 0, done: true,  text: 'TODO 1',editMode:false }),
-    Map({ id: 1, done: false, text: 'TODO 2',editMode:false }),
-    Map({ id: 2, done: false, text: 'TODO 1',editMode:false }),
-    Map({ id: 3, done: false, text: 'TODO 1',editMode:false })    
-  ]),
-  filterVal:List([
-     Map({ id: 0,active: true,  val: 'All'}),
-     Map({ id: 1,active: false,  val: 'Finished'}),
-     Map({ id: 2,active: false,  val: 'Pending'})
-  ])
-});*/
-
+const List = Immutable.List;
+const Map = Immutable.Map;
 const uid = () => Math.random().toString(4).slice(3);
 
 /*export default function reducer(storeData=initalData, action) {
@@ -135,7 +115,12 @@ const todos = (todos = List([]), action) => {
 }
 
 /*** Ideal to break in filterReducer module***/
-const filterVal = (filterVal=List([]), action) => {
+const initalFilterVals = Immutable.List([
+     Immutable.Map({ id: 0,active: true,  val: 'All'}),
+     Immutable.Map({ id: 1,active: false,  val: 'Finished'}),
+     Immutable.Map({ id: 2,active: false,  val: 'Pending'})
+  ]);
+const filterVal = (filterVal=initalFilterVals, action) => {
     console.log("-----action from filter---");
     console.log(action.type);  
     switch(action.type) {
@@ -152,11 +137,27 @@ const filterVal = (filterVal=List([]), action) => {
   
   }
 }
+const initialState = Immutable.fromJS({
+    locationBeforeTransitions: null
+});
 
+const routerReducer = (state = initialState, action) => {
+    console.log("-----action from route---");
+    console.log(action.type); 
+    switch(action.type) {
+      case LOCATION_CHANGE:
+        return  state.merge({
+            locationBeforeTransitions: action.payload
+        });
+    default:
+        return state;
+      }
+};
 
 export default combineReducers({  
   todos,
-  filterVal
+  filterVal,
+  routing:routerReducer
 });
 
 
