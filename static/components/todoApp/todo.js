@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
-import Input from './core/inputCompoent'
-import Button from './core/buttonComponent'
+import Input from '../core/inputCompoent'
+import Button from '../core/buttonComponent'
 
 const Todo = ({todo,deletefunction,togglefunction,enableEdit,editTodofunction}) => (
                 <div className="dis-inline">

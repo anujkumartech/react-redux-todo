@@ -23,3 +23,31 @@ body{
 a{
     cursor: pointer;
 }
+.vertical-nav{
+    height: 1000px;
+    border: none;
+    background-color: #0B3A5A;
+    padding: 0px;
+}
+.vertical-nav nav{
+    height: 100%;
+    background-color: #0B3A5A;
+    border: none;
+}   
+.vertical-nav .navbar-nav{
+    width: 100%;
+}
+.vertical-nav nav ul li{
+    display: block;
+    clear: both;
+    width: 100%;
+}
+.vertical-nav nav ul li.active{
+    background-color: green;
+}
+.vertical-nav .navbar-default .navbar-nav > li > a{
+    color:#fff;
+}
+.vertical-nav  .navbar-default .navbar-nav > .active > a{
+    background-color: green;
+}

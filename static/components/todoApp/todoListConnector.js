@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import * as components from './todoList';
-import { addTodo, toggleTodo,deleteTodo,enableEditTodo,editTodo ,fetchTodo} from '../redux/action';
+import { addTodo, toggleTodo,deleteTodo,enableEditTodo,editTodo ,fetchTodo} from '../../redux/action';
 
 export const TodoList = connect(
   function mapStateToProps(state) {    

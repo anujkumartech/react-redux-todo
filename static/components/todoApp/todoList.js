@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Todo from './todo'
-import Input from './core/inputCompoent'
+import Input from '../core/inputCompoent'
 
 export class TodoList extends Component {
    constructor(props) {

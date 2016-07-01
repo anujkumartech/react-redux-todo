@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { FilterLinks } from './filterLink';
-import { filterTodo } from '../redux/action';
+import { filterTodo } from '../../redux/action';
 
 export const FilterLink = connect(
   function mapStateToProps(state) {
