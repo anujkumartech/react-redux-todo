@@ -32,7 +32,7 @@ export class Calender extends Component {
         }
         return month;
     };
-    generateDateArr(monthCode = 0){
+    generateDateArr(){
         let currentDate,month;
         currentDate = new Date(this.state.selectedYear,this.state.selectedMonth,1);       
         const currDay =  currentDate.getDay();
@@ -96,7 +96,7 @@ export class Calender extends Component {
         }   
     }
     render(){
-        const allDates= this.generateDateArr(this.state.selectedMonth);
+        const allDates= this.generateDateArr();
         let key= 1;
         return(
             <div>

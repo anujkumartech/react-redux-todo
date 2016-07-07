@@ -44657,8 +44657,6 @@
 	        value: function generateDateArr() {
 	            var _this2 = this;
 
-	            var monthCode = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-
 	            var currentDate = void 0,
 	                month = void 0;
 	            currentDate = new Date(this.state.selectedYear, this.state.selectedMonth, 1);
@@ -44738,7 +44736,7 @@
 	        value: function render() {
 	            var _this3 = this;
 
-	            var allDates = this.generateDateArr(this.state.selectedMonth);
+	            var allDates = this.generateDateArr();
 	            var key = 1;
 	            return _react2.default.createElement(
 	                'div',
