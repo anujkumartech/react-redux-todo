@@ -74,6 +74,9 @@ a{
     border-bottom:none;
     text-align: center;
  }
+  .table.table-backround > tbody > tr > td{
+      cursor: pointer;
+  }
   .table-header{
       padding: 10px 0px;
   }

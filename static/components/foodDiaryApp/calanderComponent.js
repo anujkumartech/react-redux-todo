@@ -22,6 +22,8 @@ export class Calender extends Component {
            'selectedMonth' : new Date().getMonth(),
            'selectedYear': new Date().getFullYear()
         };
+        this.executeUserevent = this.executeUserevent.bind(this);
+        console.log(props);
     };
     getSelectedMonthName(val){
         let month = '';
@@ -101,12 +103,17 @@ export class Calender extends Component {
         dateArrs.map((dateArr) =>{
             const obj = {'key': uid(),'dates':[]};
             dateArr.map((d) => {
-                var dateObj={'key': uid(),'date':d,'paylod':{}};
+                var dateObj={'key': uid(),'date':d,'payload':{}};
                 obj.dates.push(dateObj);
             })
             dateMap.push(obj);
         });        
         return dateMap;
+    }
+    executeUserevent(d){
+        if(this.props.dateClick !== undefined){
+           this.props.dateClick(d.payload); 
+        }
     }
     render(){
         const allDates= this.generateData(this.generateDateArr());
@@ -141,7 +148,7 @@ export class Calender extends Component {
                             allDates.map( dateArr =>(
                                 <tr key={dateArr.key}> 
                                     { dateArr.dates.map(d =>(
-                                        <td className={d.date.getMonth() === this.state.selectedMonth? 'current-month':'prev-month'} key={d.key}>{d.date.getDate()}</td>
+                                        <td onClick = {(e) => this.executeUserevent(d)} className={d.date.getMonth() === this.state.selectedMonth? 'current-month':'prev-month'} key={d.key}>{d.date.getDate()}</td>
                                     ))}                   
                                 </tr>
                             ))

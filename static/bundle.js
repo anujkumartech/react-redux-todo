@@ -44566,6 +44566,11 @@
 	    }
 
 	    _createClass(FoodDairyApp, [{
+	        key: 'updateFood',
+	        value: function updateFood(data) {
+	            console.log(data);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -44576,7 +44581,7 @@
 	                    'div',
 	                    { className: 'col-md-6' },
 	                    _react2.default.createElement(_dailyLogComponentContainer.DailyLogComponent, null),
-	                    _react2.default.createElement(_calanderComponent.Calender, null)
+	                    _react2.default.createElement(_calanderComponent.Calender, { dateClick: this.updateFood })
 	                ),
 	                _react2.default.createElement('div', { className: 'col-md-3' })
 	            );
@@ -44641,6 +44646,8 @@
 	            'selectedMonth': new Date().getMonth(),
 	            'selectedYear': new Date().getFullYear()
 	        };
+	        _this.executeUserevent = _this.executeUserevent.bind(_this);
+	        console.log(props);
 	        return _this;
 	    }
 
@@ -44742,12 +44749,19 @@
 	            dateArrs.map(function (dateArr) {
 	                var obj = { 'key': uid(), 'dates': [] };
 	                dateArr.map(function (d) {
-	                    var dateObj = { 'key': uid(), 'date': d, 'paylod': {} };
+	                    var dateObj = { 'key': uid(), 'date': d, 'payload': {} };
 	                    obj.dates.push(dateObj);
 	                });
 	                dateMap.push(obj);
 	            });
 	            return dateMap;
+	        }
+	    }, {
+	        key: 'executeUserevent',
+	        value: function executeUserevent(d) {
+	            if (this.props.dateClick !== undefined) {
+	                this.props.dateClick(d.payload);
+	            }
 	        }
 	    }, {
 	        key: 'render',
@@ -44864,7 +44878,9 @@
 	                                dateArr.dates.map(function (d) {
 	                                    return _react2.default.createElement(
 	                                        'td',
-	                                        { className: d.date.getMonth() === _this3.state.selectedMonth ? 'current-month' : 'prev-month', key: d.key },
+	                                        { onClick: function onClick(e) {
+	                                                return _this3.executeUserevent(d);
+	                                            }, className: d.date.getMonth() === _this3.state.selectedMonth ? 'current-month' : 'prev-month', key: d.key },
 	                                        d.date.getDate()
 	                                    );
 	                                })
