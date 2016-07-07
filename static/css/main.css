@@ -51,3 +51,39 @@ a{
 .vertical-nav  .navbar-default .navbar-nav > .active > a{
     background-color: green;
 }
+.table-backround,.change-wrapper{
+    background-color:#5d5d5d;
+}
+.change-wrapper{
+    overflow: hidden;
+    padding:15px 10px;
+}
+.change-wrapper span{
+    color:#fff;
+}
+.change-wrapper span.left-arrow{
+    margin-right: 10px;
+    cursor: pointer;
+}
+.change-wrapper span.right-arrow{
+    margin-left: 10px;
+    cursor: pointer;
+}
+ .table.table-backround > tbody > tr > td,.table.table-backround > thead:first-child > tr:first-child > th{
+    border-top:none;
+    border-bottom:none;
+    text-align: center;
+ }
+  .table-header{
+      padding: 10px 0px;
+  }
+ .table-header th{
+     background-color: #888888;
+     color:#fff;
+ }
+  .table.table-backround > tbody > tr > td{
+      color:#fff;
+  }
+ .table.table-backround > tbody > tr > td.prev-month{
+     color: #888888;
+ }
