@@ -44611,6 +44611,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var uid = function uid() {
+	    return Math.random().toString(5).slice(3);
+	};
+
 	var Calender = exports.Calender = function (_Component) {
 	    _inherits(Calender, _Component);
 
@@ -44732,12 +44736,25 @@
 	            }
 	        }
 	    }, {
+	        key: 'generateData',
+	        value: function generateData(dateArrs) {
+	            var dateMap = [];
+	            dateArrs.map(function (dateArr) {
+	                var obj = { 'key': uid(), 'dates': [] };
+	                dateArr.map(function (d) {
+	                    var dateObj = { 'key': uid(), 'date': d, 'paylod': {} };
+	                    obj.dates.push(dateObj);
+	                });
+	                dateMap.push(obj);
+	            });
+	            return dateMap;
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this3 = this;
 
-	            var allDates = this.generateDateArr();
-	            var key = 1;
+	            var allDates = this.generateData(this.generateDateArr());
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -44843,12 +44860,12 @@
 	                        allDates.map(function (dateArr) {
 	                            return _react2.default.createElement(
 	                                'tr',
-	                                { key: key++ },
-	                                dateArr.map(function (date) {
+	                                { key: dateArr.key },
+	                                dateArr.dates.map(function (d) {
 	                                    return _react2.default.createElement(
 	                                        'td',
-	                                        { className: date.getMonth() === _this3.state.selectedMonth ? 'current-month' : 'prev-month', key: date.getDate() },
-	                                        date.getDate()
+	                                        { className: d.date.getMonth() === _this3.state.selectedMonth ? 'current-month' : 'prev-month', key: d.key },
+	                                        d.date.getDate()
 	                                    );
 	                                })
 	                            );

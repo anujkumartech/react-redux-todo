@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+const uid = () => Math.random().toString(5).slice(3);
 
 export class Calender extends Component {
     constructor(props) {
@@ -95,9 +96,20 @@ export class Calender extends Component {
            this.setState({selectedYear: this.state.selectedYear-1}) ;
         }   
     }
+    generateData(dateArrs){
+        let dateMap =[];
+        dateArrs.map((dateArr) =>{
+            const obj = {'key': uid(),'dates':[]};
+            dateArr.map((d) => {
+                var dateObj={'key': uid(),'date':d,'paylod':{}};
+                obj.dates.push(dateObj);
+            })
+            dateMap.push(obj);
+        });        
+        return dateMap;
+    }
     render(){
-        const allDates= this.generateDateArr();
-        let key= 1;
+        const allDates= this.generateData(this.generateDateArr());
         return(
             <div>
                 <div className="change-wrapper">
@@ -127,9 +139,9 @@ export class Calender extends Component {
                     <tbody>
                         {
                             allDates.map( dateArr =>(
-                                <tr key={key++}> 
-                                    { dateArr.map(date =>(
-                                        <td className={date.getMonth() === this.state.selectedMonth? 'current-month':'prev-month'} key={date.getDate()}>{date.getDate()}</td>
+                                <tr key={dateArr.key}> 
+                                    { dateArr.dates.map(d =>(
+                                        <td className={d.date.getMonth() === this.state.selectedMonth? 'current-month':'prev-month'} key={d.key}>{d.date.getDate()}</td>
                                     ))}                   
                                 </tr>
                             ))
