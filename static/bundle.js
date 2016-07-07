@@ -44643,7 +44643,7 @@
 	    _createClass(Calender, [{
 	        key: 'getSelectedMonthName',
 	        value: function getSelectedMonthName(val) {
-	            var month = 'JAN';
+	            var month = '';
 	            for (var x in this.monthMap) {
 	                if (this.monthMap[x] == val) {
 	                    month = x;
@@ -44661,7 +44661,6 @@
 
 	            var currentDate = void 0,
 	                month = void 0;
-	            console.log(this.state.selectedMonth);
 	            currentDate = new Date(this.state.selectedYear, this.state.selectedMonth, 1);
 	            var currDay = currentDate.getDay();
 	            var DateArr = [currentDate];
@@ -44688,7 +44687,7 @@
 	                var nextDateArr = [];
 	                nextDateConst = 1;
 	                var lastDateArr = masterDateArr[masterDateArr.length - 1];
-	                if (lastDateArr[lastDateArr.length - 1].getMonth() > _this2.state.selectedMonth) {
+	                if (lastDateArr[lastDateArr.length - 1].getMonth() > _this2.state.selectedMonth || lastDateArr[lastDateArr.length - 1].getFullYear() > _this2.state.selectedYear) {
 	                    pushNextDate = false;
 	                    return 'break';
 	                }
@@ -44711,24 +44710,28 @@
 	    }, {
 	        key: 'updateSelectedMonth',
 	        value: function updateSelectedMonth(flag) {
-	            console.log(flag);
 	            if (flag) {
-	                this.setState({ selectedMonth: this.state.selectedMonth + 1 });
+	                if (this.state.selectedMonth === 11) {
+	                    this.setState({ selectedMonth: 0, selectedYear: this.state.selectedYear + 1 });
+	                } else {
+	                    this.setState({ selectedMonth: this.state.selectedMonth + 1 });
+	                }
 	            } else {
-	                this.setState({ selectedMonth: this.state.selectedMonth - 1 });
+	                if (this.state.selectedMonth === 0) {
+	                    this.setState({ selectedMonth: 11, selectedYear: this.state.selectedYear - 1 });
+	                } else {
+	                    this.setState({ selectedMonth: this.state.selectedMonth - 1 });
+	                }
 	            }
-	            console.log(this.state.selectedMonth);
 	        }
 	    }, {
 	        key: 'updateSelectedYear',
 	        value: function updateSelectedYear(flag) {
-	            console.log(flag);
 	            if (flag) {
 	                this.setState({ selectedYear: this.state.selectedYear + 1 });
 	            } else {
 	                this.setState({ selectedYear: this.state.selectedYear - 1 });
 	            }
-	            console.log(this.state.selectedYear);
 	        }
 	    }, {
 	        key: 'render',
@@ -44737,7 +44740,6 @@
 
 	            var allDates = this.generateDateArr(this.state.selectedMonth);
 	            var key = 1;
-	            console.log("render");
 	            return _react2.default.createElement(
 	                'div',
 	                null,
