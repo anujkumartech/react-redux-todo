@@ -7,6 +7,7 @@ const TOGGLE_TODO = 'TOGGLE_TODO'
 const EDIT_TODO = 'EDIT_TODO'
 const ENABLE_EDIT_TODO = 'ENABLE_EDIT_TODO'
 const FILTER_TODO = 'FILTER_TODO'
+const ADD_LOG = 'ADD_LOG'
 
 
 
@@ -33,6 +34,9 @@ export function enableEditTodo(id) {
 }
 export function filterTodo(val) {
   return { type: FILTER_TODO, val }
+}
+export function addLog(date,entry) {
+  return { type: ADD_LOG, date,entry }
 }
 
 export function fetchTodo() {

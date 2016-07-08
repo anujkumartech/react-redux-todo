@@ -154,10 +154,34 @@ const routerReducer = (state = initialState, action) => {
       }
 };
 
+//todos = List([])
+/*** dailylog reducer ***/
+const initalLogEntries = Immutable.List([
+     Immutable.Map({ id: 0,active: true,  val: 'All'}),
+     Immutable.Map({ id: 1,active: false,  val: 'Finished'}),
+     Immutable.Map({ id: 2,active: false,  val: 'Pending'})
+  ]);
+
+const logEntries = (logs =  List([]), action) => {
+    console.log("-----action from Log---");
+    console.log(action.type); 
+    switch(action.type) {
+      case 'ADD_LOG':
+      return logs.push(Map({'date':action.date,
+                'id':uid(),
+                'entry':action.entry      
+          }));
+    default:
+        return logs;
+      }
+};
+
+
 export default combineReducers({  
   todos,
   filterVal,
-  routing:routerReducer
+  routing:routerReducer,
+  logEntries
 });
 
 

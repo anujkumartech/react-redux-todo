@@ -148,7 +148,7 @@ export class Calender extends Component {
                             allDates.map( dateArr =>(
                                 <tr key={dateArr.key}> 
                                     { dateArr.dates.map(d =>(
-                                        <td onClick = {(e) => this.executeUserevent(d)} className={d.date.getMonth() === this.state.selectedMonth? 'current-month':'prev-month'} key={d.key}>{d.date.getDate()}</td>
+                                        <td onClick = {(e) => this.executeUserevent(d)} className={d.date.getMonth() === this.state.selectedMonth  ? d.date.getDate() === new Date().getDate() ? 'current-month curent-day': 'current-month':'prev-month'} key={d.key}>{d.date.getDate()}</td>
                                     ))}                   
                                 </tr>
                             ))
