@@ -112,7 +112,7 @@ export class Calender extends Component {
     }
     executeUserevent(d){
         if(this.props.dateClick !== undefined){
-           this.props.dateClick(d.payload); 
+           this.props.dateClick(d); 
         }
     }
     render(){
