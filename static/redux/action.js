@@ -8,6 +8,7 @@ const EDIT_TODO = 'EDIT_TODO'
 const ENABLE_EDIT_TODO = 'ENABLE_EDIT_TODO'
 const FILTER_TODO = 'FILTER_TODO'
 const ADD_LOG = 'ADD_LOG'
+const UPDATE_DATE = 'UPDATE_DATE'
 
 
 
@@ -38,6 +39,10 @@ export function filterTodo(val) {
 export function addLog(date,entry) {
   return { type: ADD_LOG, date,entry }
 }
+export function updateCurrentDate(date,entry) {
+  return { type: UPDATE_DATE, date }
+}
+
 
 export function fetchTodo() {
     return dispatch => {

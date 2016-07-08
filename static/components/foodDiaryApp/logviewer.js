@@ -7,7 +7,6 @@ export class LogViewer extends Component {
      this.state = {
          'entries':['apple','orange']
      }
-     console.log(this.props.addEntryFunction);
      this.onSubmit = this.onSubmit.bind(this);
  } 
 onSubmit(event){

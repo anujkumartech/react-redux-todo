@@ -176,12 +176,24 @@ const logEntries = (logs =  List([]), action) => {
       }
 };
 
+const selectedDate = (date =  Map({ date: new Date()}), action) => {
+    console.log("-----action from Log---");
+    console.log(action.type); 
+    switch(action.type) {
+      case 'UPDATE_DATE':
+      return date.set('date',action.date);
+    default:
+        return date;
+      }
+};
+
 
 export default combineReducers({  
   todos,
   filterVal,
   routing:routerReducer,
-  logEntries
+  logEntries,
+  selectedDate
 });
 
 
