@@ -90,6 +90,9 @@ a{
  .table.table-backround > tbody > tr > td.prev-month{
      color: #888888;
  }
+  .table.table-backround > tbody > tr > td:hover{
+      background-color: #dd4814;
+  }
  .table.table-backround > tbody > tr > td.curent-day{
     background-color: #dd4814;
  }

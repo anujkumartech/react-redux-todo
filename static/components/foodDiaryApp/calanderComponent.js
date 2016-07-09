@@ -20,7 +20,8 @@ export class Calender extends Component {
         }
        this.state ={
            'selectedMonth' : new Date().getMonth(),
-           'selectedYear': new Date().getFullYear()
+           'selectedYear': new Date().getFullYear(),
+           'currentDate':new Date().toDateString()
         };
        this.executeUserevent = this.executeUserevent.bind(this);
     };
@@ -111,6 +112,7 @@ export class Calender extends Component {
     }
     executeUserevent(d){
         if(this.props.dateClick !== undefined){
+           this.setState({'currentDate':d.date.toDateString()});
            this.props.dateClick(d); 
         }
     }
@@ -147,7 +149,7 @@ export class Calender extends Component {
                             allDates.map( dateArr =>(
                                 <tr key={dateArr.key}> 
                                     { dateArr.dates.map(d =>(
-                                        <td onClick = {(e) => this.executeUserevent(d)} className={d.date.getMonth() === this.state.selectedMonth  ? d.date.getDate() === new Date().getDate() ? 'current-month curent-day': 'current-month':'prev-month'} key={d.key}>{d.date.getDate()}</td>
+                                        <td onClick = {(e) => this.executeUserevent(d)} className={d.date.getMonth() === this.state.selectedMonth  ? d.date.toDateString() === this.state.currentDate ? 'current-month curent-day': 'current-month':'prev-month'} key={d.key}>{d.date.getDate()}</td>
                                     ))}                   
                                 </tr>
                             ))
