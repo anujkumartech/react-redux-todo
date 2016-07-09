@@ -4,10 +4,8 @@ import { Link, browserHistory } from 'react-router'
 export class Header extends Component {
     constructor(props) {
         super(props);
-        console.log(props.activeLink)
     };
     render(){
-        console.log(this.props.activeLink)
         return(
             <div className="col-sm-3 vertical-nav">
                 <nav className="navbar navbar-default">

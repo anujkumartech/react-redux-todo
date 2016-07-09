@@ -15,13 +15,10 @@ onSubmit(event){
     const enterPressed = (event.which == 13);
     const validText = text.length > 0;
     if(enterPressed && validText) {      
-    //this.props.addTodo(text);
-    console.log(text);
-    this.props.addEntryFunction(new Date(),text);
-    input.value = '';
+        this.props.addEntryFunction(this.props.currentDate,text);
+        input.value = '';
     }
 }  
-  
   render(){
     return (
         <div>
@@ -29,16 +26,15 @@ onSubmit(event){
             <Input classNameValue="form-control" placeHolderValue="Add A New Log Entry" keyDownFunction={this.onSubmit}/>
             </div>
             {
-                this.state.entries.map((entry) =>(
-                    <div>{entry}</div>
+                this.props.entries.map((entry) =>(
+                    <div key={entry.get('id')}>{entry.get('entry')}</div>
                 ))
             }
             {
-                this.state.entries.length === 0 ? (<div>No Entry Found</div>): null
+                this.props.entries.size === 0 ? (<div>No Entry Found</div>): null
             }
         </div>
     );
   }
-
 }
 

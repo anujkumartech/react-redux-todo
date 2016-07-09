@@ -67,15 +67,12 @@ const uid = () => Math.random().toString(4).slice(3);
 
 /*** Ideal to break in todoreducer module***/
 const todos = (todos = List([]), action) => {
-  console.log("-----action from todos---");
-  console.log(action.type);
   switch(action.type) { 
      case 'FETCH_TODO':
       action.todoData.map(todo =>{
        todos = todos.push(Map(todo));
       });
-      return todos;
-      
+      return todos;      
     case 'ADD_TODO':
       return todos.push(Map({'text':action.text,
                 'id':uid(),
@@ -121,8 +118,6 @@ const initalFilterVals = Immutable.List([
      Immutable.Map({ id: 2,active: false,  val: 'Pending'})
   ]);
 const filterVal = (filterVal=initalFilterVals, action) => {
-    console.log("-----action from filter---");
-    console.log(action.type);  
     switch(action.type) {
       case 'FILTER_TODO':
         return  filterVal.map(f => {
@@ -142,8 +137,6 @@ const initialState = Immutable.fromJS({
 });
 
 const routerReducer = (state = initialState, action) => {
-    console.log("-----action from route---");
-    console.log(action.type); 
     switch(action.type) {
       case LOCATION_CHANGE:
         return  state.merge({
@@ -163,8 +156,6 @@ const initalLogEntries = Immutable.List([
   ]);
 
 const logEntries = (logs =  List([]), action) => {
-    console.log("-----action from Log---");
-    console.log(action.type); 
     switch(action.type) {
       case 'ADD_LOG':
       return logs.push(Map({'date':action.date,
@@ -177,8 +168,6 @@ const logEntries = (logs =  List([]), action) => {
 };
 
 const selectedDate = (date =  Map({ date: new Date()}), action) => {
-    console.log("-----action from Log---");
-    console.log(action.type); 
     switch(action.type) {
       case 'UPDATE_DATE':
       return date.set('date',action.date);

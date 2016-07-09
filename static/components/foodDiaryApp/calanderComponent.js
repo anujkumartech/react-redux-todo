@@ -22,8 +22,7 @@ export class Calender extends Component {
            'selectedMonth' : new Date().getMonth(),
            'selectedYear': new Date().getFullYear()
         };
-        this.executeUserevent = this.executeUserevent.bind(this);
-        console.log(props);
+       this.executeUserevent = this.executeUserevent.bind(this);
     };
     getSelectedMonthName(val){
         let month = '';
