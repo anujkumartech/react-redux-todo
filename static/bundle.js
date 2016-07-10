@@ -44783,8 +44783,12 @@
 	          { className: 'col-md-3' },
 	          _react2.default.createElement(
 	            'div',
-	            null,
-	            selectedDate.get('date').toDateString()
+	            { className: 'list-group' },
+	            _react2.default.createElement(
+	              'span',
+	              { href: '#', className: 'list-group-item active' },
+	              selectedDate.get('date').toDateString()
+	            )
 	          ),
 	          _react2.default.createElement(_logviewer.LogViewer, { entries: filteredEntries, currentDate: selectedDate.get('date'), addEntryFunction: function addEntryFunction(date, entry) {
 	              return _this2.addALog(date, entry);
@@ -45297,18 +45301,27 @@
 	                    null,
 	                    _react2.default.createElement(_inputCompoent2.default, { classNameValue: 'form-control', placeHolderValue: 'Add A New Log Entry', keyDownFunction: this.onSubmit })
 	                ),
-	                this.props.entries.map(function (entry) {
-	                    return _react2.default.createElement(
+	                _react2.default.createElement(
+	                    'ul',
+	                    { className: 'list-group' },
+	                    this.props.entries.map(function (entry) {
+	                        return _react2.default.createElement(
+	                            'li',
+	                            { key: entry.get('id'), className: 'list-group-item' },
+	                            entry.get('entry')
+	                        );
+	                    }),
+	                    this.props.entries.size === 0 ? _react2.default.createElement(
 	                        'div',
-	                        { key: entry.get('id') },
-	                        entry.get('entry')
-	                    );
-	                }),
-	                this.props.entries.size === 0 ? _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    'No Entry Found'
-	                ) : null
+	                        { className: 'alert alert-warning' },
+	                        _react2.default.createElement(
+	                            'strong',
+	                            null,
+	                            'Warning!'
+	                        ),
+	                        ' No Entries Found For selected Date'
+	                    ) : null
+	                )
 	            );
 	        }
 	    }]);

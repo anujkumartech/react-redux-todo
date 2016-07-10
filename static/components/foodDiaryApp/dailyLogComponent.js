@@ -27,8 +27,10 @@ export class DailyLog extends Component {
                   <Calender dateClick={this.updateFood}/>
             </div>
             <div className="col-md-3">
-              <div>{selectedDate.get('date').toDateString()}</div>
-              <LogViewer entries={filteredEntries} currentDate={selectedDate.get('date')} addEntryFunction={(date,entry)=>this.addALog(date,entry)} />
+            <div className="list-group">
+              <span href="#" className="list-group-item active">{selectedDate.get('date').toDateString()}</span>
+            </div>
+            <LogViewer entries={filteredEntries} currentDate={selectedDate.get('date')} addEntryFunction={(date,entry)=>this.addALog(date,entry)} />
             </div>
           </div>
       );

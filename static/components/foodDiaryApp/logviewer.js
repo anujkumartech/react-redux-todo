@@ -25,14 +25,17 @@ onSubmit(event){
             <div>
             <Input classNameValue="form-control" placeHolderValue="Add A New Log Entry" keyDownFunction={this.onSubmit}/>
             </div>
+            <ul className="list-group">
+
             {
                 this.props.entries.map((entry) =>(
-                    <div key={entry.get('id')}>{entry.get('entry')}</div>
+                    <li key={entry.get('id')} className="list-group-item">{entry.get('entry')}</li>
                 ))
             }
             {
-                this.props.entries.size === 0 ? (<div>No Entry Found</div>): null
+                this.props.entries.size === 0 ? (<div className="alert alert-warning"><strong>Warning!</strong> No Entries Found For selected Date</div>): null
             }
+            </ul>
         </div>
     );
   }
