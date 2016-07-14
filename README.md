@@ -1,4 +1,4 @@
-A basic todo application build using react, redux and immutablejs
+An application build using react, redux and immutablejs. It has two parts. A Todo APP and A daily Log Calculator.
 
 To Run 
 
