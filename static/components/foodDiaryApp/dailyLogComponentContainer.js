@@ -8,7 +8,7 @@ export const DailyLogComponent = connect(
   },
   function mapDispatchToProps(dispatch) {
     return {        
-        addLog : (date,entry) => dispatch(addLog(date,entry)),
+        addLog : (date,entry,calory) => dispatch(addLog(date,entry,calory)),
         updateCurrentDate : (date) => dispatch(updateCurrentDate(date))
     };
   }

@@ -36,8 +36,8 @@ export function enableEditTodo(id) {
 export function filterTodo(val) {
   return { type: FILTER_TODO, val }
 }
-export function addLog(date,entry) {
-  return { type: ADD_LOG, date,entry }
+export function addLog(date,entry,calory) {
+  return { type: ADD_LOG, date,entry ,calory}
 }
 export function updateCurrentDate(date,entry) {
   return { type: UPDATE_DATE, date }

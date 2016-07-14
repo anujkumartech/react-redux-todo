@@ -76,9 +76,9 @@
 
 	var _todoappComponent = __webpack_require__(282);
 
-	var _foodDairyAppComponent = __webpack_require__(295);
+	var _foodDairyAppComponent = __webpack_require__(297);
 
-	var _headerComponent = __webpack_require__(294);
+	var _headerComponent = __webpack_require__(296);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22143,8 +22143,6 @@
 
 	//todos = List([])
 	/*** dailylog reducer ***/
-	var initalLogEntries = _immutable2.default.List([_immutable2.default.Map({ id: 0, active: true, val: 'All' }), _immutable2.default.Map({ id: 1, active: false, val: 'Finished' }), _immutable2.default.Map({ id: 2, active: false, val: 'Pending' })]);
-
 	var logEntries = function logEntries() {
 	  var logs = arguments.length <= 0 || arguments[0] === undefined ? List([]) : arguments[0];
 	  var action = arguments[1];
@@ -22153,7 +22151,8 @@
 	    case 'ADD_LOG':
 	      return logs.push(Map({ 'date': action.date,
 	        'id': uid(),
-	        'entry': action.entry
+	        'entry': action.entry,
+	        'caloryCount': action.calory
 	      }));
 	    default:
 	      return logs;
@@ -34289,7 +34288,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _headerComponent = __webpack_require__(294);
+	var _headerComponent = __webpack_require__(296);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34619,13 +34618,15 @@
 	    var classNameValue = _ref.classNameValue;
 	    var placeHolderValue = _ref.placeHolderValue;
 	    var keyDownFunction = _ref.keyDownFunction;
-	    return _react2.default.createElement("input", { className: classNameValue, type: "text", placeholder: placeHolderValue, onKeyDown: keyDownFunction });
+	    var onChangeFunction = _ref.onChangeFunction;
+	    return _react2.default.createElement("input", { className: classNameValue, type: "text", placeholder: placeHolderValue, onKeyDown: keyDownFunction, onChange: onChangeFunction });
 	};
 
 	Input.propTypes = {
 	    classNameValue: _react.PropTypes.string.isRequired,
 	    placeHolderValue: _react.PropTypes.string.isRequired,
-	    keyDownFunction: _react.PropTypes.func
+	    keyDownFunction: _react.PropTypes.func,
+	    onChangeFunction: _react.PropTypes.func
 	};
 	exports.default = Input;
 
@@ -34725,8 +34726,8 @@
 	function filterTodo(val) {
 	  return { type: FILTER_TODO, val: val };
 	}
-	function addLog(date, entry) {
-	  return { type: ADD_LOG, date: date, entry: entry };
+	function addLog(date, entry, calory) {
+	  return { type: ADD_LOG, date: date, entry: entry, calory: calory };
 	}
 	function updateCurrentDate(date, entry) {
 	  return { type: UPDATE_DATE, date: date };
@@ -44691,8 +44692,8 @@
 	  return { logEntries: state.get("logEntries"), selectedDate: state.get("selectedDate") };
 	}, function mapDispatchToProps(dispatch) {
 	  return {
-	    addLog: function addLog(date, entry) {
-	      return dispatch((0, _action.addLog)(date, entry));
+	    addLog: function addLog(date, entry, calory) {
+	      return dispatch((0, _action.addLog)(date, entry, calory));
 	    },
 	    updateCurrentDate: function updateCurrentDate(date) {
 	      return dispatch((0, _action.updateCurrentDate)(date));
@@ -44717,9 +44718,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _calanderComponent = __webpack_require__(296);
+	var _calanderComponent = __webpack_require__(294);
 
-	var _logviewer = __webpack_require__(297);
+	var _logviewer = __webpack_require__(295);
 
 	var _immutable = __webpack_require__(191);
 
@@ -44753,8 +44754,8 @@
 	    }
 	  }, {
 	    key: 'addALog',
-	    value: function addALog(date, entry) {
-	      this.props.addLog(date, entry);
+	    value: function addALog(date, entry, calory) {
+	      this.props.addLog(date, entry, calory);
 	    }
 	  }, {
 	    key: 'render',
@@ -44790,8 +44791,8 @@
 	              selectedDate.get('date').toDateString()
 	            )
 	          ),
-	          _react2.default.createElement(_logviewer.LogViewer, { entries: filteredEntries, currentDate: selectedDate.get('date'), addEntryFunction: function addEntryFunction(date, entry) {
-	              return _this2.addALog(date, entry);
+	          _react2.default.createElement(_logviewer.LogViewer, { entries: filteredEntries, currentDate: selectedDate.get('date'), addEntryFunction: function addEntryFunction(date, entry, calory) {
+	              return _this2.addALog(date, entry, calory);
 	            } })
 	        )
 	      );
@@ -44803,134 +44804,6 @@
 
 /***/ },
 /* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.Header = undefined;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(204);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Header = exports.Header = function (_Component) {
-	    _inherits(Header, _Component);
-
-	    function Header(props) {
-	        _classCallCheck(this, Header);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this, props));
-	    }
-
-	    _createClass(Header, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'col-sm-3 vertical-nav' },
-	                _react2.default.createElement(
-	                    'nav',
-	                    { className: 'navbar navbar-default' },
-	                    _react2.default.createElement(
-	                        'ul',
-	                        { className: 'nav navbar-nav' },
-	                        _react2.default.createElement(
-	                            'li',
-	                            { className: this.props.activeLink == "todos" ? "active" : "" },
-	                            _react2.default.createElement(
-	                                _reactRouter.Link,
-	                                { to: '/todos' },
-	                                'TodoApp'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'li',
-	                            { className: this.props.activeLink == "foodDiary" ? "active" : "" },
-	                            _react2.default.createElement(
-	                                _reactRouter.Link,
-	                                { to: '/food' },
-	                                'Food Diary'
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Header;
-	}(_react.Component);
-
-/***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.FoodDairyApp = undefined;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _dailyLogComponentContainer = __webpack_require__(292);
-
-	var _headerComponent = __webpack_require__(294);
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var FoodDairyApp = exports.FoodDairyApp = function (_Component) {
-	    _inherits(FoodDairyApp, _Component);
-
-	    function FoodDairyApp() {
-	        _classCallCheck(this, FoodDairyApp);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(FoodDairyApp).apply(this, arguments));
-	    }
-
-	    _createClass(FoodDairyApp, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(_headerComponent.Header, { activeLink: 'foodDiary' }),
-	                _react2.default.createElement(_dailyLogComponentContainer.DailyLogComponent, null)
-	            );
-	        }
-	    }]);
-
-	    return FoodDairyApp;
-	}(_react.Component);
-
-/***/ },
-/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45235,7 +45108,7 @@
 	}(_react.Component);
 
 /***/ },
-/* 297 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45255,6 +45128,10 @@
 
 	var _inputCompoent2 = _interopRequireDefault(_inputCompoent);
 
+	var _buttonComponent = __webpack_require__(287);
+
+	var _buttonComponent2 = _interopRequireDefault(_buttonComponent);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -45272,13 +45149,41 @@
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LogViewer).call(this, props));
 
 	        _this.state = {
-	            'entries': ['apple', 'orange']
+	            'entries': ['apple', 'orange'],
+	            'newEntryName': '',
+	            'newEntryCalory': ''
 	        };
 	        _this.onSubmit = _this.onSubmit.bind(_this);
+	        _this.addLogEntry = _this.addLogEntry.bind(_this);
+	        _this.addNewItemName = _this.addNewItemName.bind(_this);
+	        _this.addNewItemCalories = _this.addNewItemCalories.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(LogViewer, [{
+	        key: 'addNewItemName',
+	        value: function addNewItemName(event) {
+	            var input = event.target;
+	            var text = input.value;
+	            if (text.length > 0) {
+	                this.setState({ 'newEntryName': text });
+	            }
+	        }
+	    }, {
+	        key: 'addNewItemCalories',
+	        value: function addNewItemCalories(event) {
+	            var input = event.target;
+	            var text = input.value;
+	            if (isNaN(text)) {
+	                alert("Please Enter Valid Number");
+	                input.value = '';
+	                return;
+	            }
+	            if (text.length > 0) {
+	                this.setState({ 'newEntryCalory': text });
+	            }
+	        }
+	    }, {
 	        key: 'onSubmit',
 	        value: function onSubmit(event) {
 	            var input = event.target;
@@ -45291,6 +45196,18 @@
 	            }
 	        }
 	    }, {
+	        key: 'addLogEntry',
+	        value: function addLogEntry() {
+	            if (!this.state.newEntryName || !this.state.newEntryCalory) {
+	                alert("Please fill required details");
+	                return;
+	            }
+	            this.props.addEntryFunction(this.props.currentDate, this.state.newEntryName, this.state.newEntryCalory);
+	            this.setState({ 'newEntryCalory': '', 'newEntryName': '' });
+	            document.getElementsByClassName("item-value")[0].value = '';
+	            document.getElementsByClassName("calory-value")[0].value = '';
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -45298,28 +45215,70 @@
 	                null,
 	                _react2.default.createElement(
 	                    'div',
-	                    null,
-	                    _react2.default.createElement(_inputCompoent2.default, { classNameValue: 'form-control', placeHolderValue: 'Add A New Log Entry', keyDownFunction: this.onSubmit })
+	                    { className: 'row no-margin margin-bottom-10' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'col-md-6 no-padding' },
+	                        _react2.default.createElement(_inputCompoent2.default, { classNameValue: 'form-control item-value no-margin', placeHolderValue: 'Add A New Log Entry', onChangeFunction: this.addNewItemName })
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'col-md-3 no-padding left-padding-10' },
+	                        _react2.default.createElement(_inputCompoent2.default, { classNameValue: 'form-control calory-value no-margin', placeHolderValue: 'Calories', onChangeFunction: this.addNewItemCalories })
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'col-md-3' },
+	                        _react2.default.createElement(_buttonComponent2.default, { classNameValue: 'btn btn-info margin-left-btn', clickFunction: this.addLogEntry, textVal: 'ADD Entry' })
+	                    )
 	                ),
+	                _react2.default.createElement('div', { className: 'clearfix' }),
 	                _react2.default.createElement(
 	                    'ul',
 	                    { className: 'list-group' },
+	                    this.props.entries.size > 0 ? _react2.default.createElement(
+	                        'li',
+	                        { className: 'list-group-item hidden-overflow' },
+	                        _react2.default.createElement(
+	                            'span',
+	                            { className: 'pull-left' },
+	                            'Item'
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            { className: 'pull-right' },
+	                            'Calories'
+	                        )
+	                    ) : null,
 	                    this.props.entries.map(function (entry) {
 	                        return _react2.default.createElement(
 	                            'li',
-	                            { key: entry.get('id'), className: 'list-group-item' },
-	                            entry.get('entry')
+	                            { key: entry.get('id'), className: 'list-group-item hidden-overflow' },
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'pull-left' },
+	                                entry.get('entry')
+	                            ),
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'pull-right' },
+	                                entry.get('caloryCount')
+	                            )
 	                        );
 	                    }),
 	                    this.props.entries.size === 0 ? _react2.default.createElement(
-	                        'div',
-	                        { className: 'alert alert-warning' },
+	                        'li',
+	                        { className: 'list-group-item' },
 	                        _react2.default.createElement(
-	                            'strong',
-	                            null,
-	                            'Warning!'
-	                        ),
-	                        ' No Entries Found For selected Date'
+	                            'div',
+	                            { className: 'alert alert-warning' },
+	                            _react2.default.createElement(
+	                                'strong',
+	                                null,
+	                                'Warning!'
+	                            ),
+	                            ' No Entries Found For selected Date'
+	                        )
 	                    ) : null
 	                )
 	            );
@@ -45327,6 +45286,134 @@
 	    }]);
 
 	    return LogViewer;
+	}(_react.Component);
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Header = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(204);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Header = exports.Header = function (_Component) {
+	    _inherits(Header, _Component);
+
+	    function Header(props) {
+	        _classCallCheck(this, Header);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this, props));
+	    }
+
+	    _createClass(Header, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'col-sm-3 vertical-nav' },
+	                _react2.default.createElement(
+	                    'nav',
+	                    { className: 'navbar navbar-default' },
+	                    _react2.default.createElement(
+	                        'ul',
+	                        { className: 'nav navbar-nav' },
+	                        _react2.default.createElement(
+	                            'li',
+	                            { className: this.props.activeLink == "todos" ? "active" : "" },
+	                            _react2.default.createElement(
+	                                _reactRouter.Link,
+	                                { to: '/todos' },
+	                                'TodoApp'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { className: this.props.activeLink == "foodDiary" ? "active" : "" },
+	                            _react2.default.createElement(
+	                                _reactRouter.Link,
+	                                { to: '/food' },
+	                                'Food Diary'
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Header;
+	}(_react.Component);
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.FoodDairyApp = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _dailyLogComponentContainer = __webpack_require__(292);
+
+	var _headerComponent = __webpack_require__(296);
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var FoodDairyApp = exports.FoodDairyApp = function (_Component) {
+	    _inherits(FoodDairyApp, _Component);
+
+	    function FoodDairyApp() {
+	        _classCallCheck(this, FoodDairyApp);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(FoodDairyApp).apply(this, arguments));
+	    }
+
+	    _createClass(FoodDairyApp, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(_headerComponent.Header, { activeLink: 'foodDiary' }),
+	                _react2.default.createElement(_dailyLogComponentContainer.DailyLogComponent, null)
+	            );
+	        }
+	    }]);
+
+	    return FoodDairyApp;
 	}(_react.Component);
 
 /***/ }

@@ -15,8 +15,8 @@ export class DailyLog extends Component {
   updateFood(data){
       this.props.updateCurrentDate(data.date);
   }
-  addALog(date,entry){
-    this.props.addLog(date,entry);
+  addALog(date,entry,calory){
+    this.props.addLog(date,entry,calory);
   }
   render(){
     const { logEntries,addLog,selectedDate,updateCurrentDate} = this.props;
@@ -30,7 +30,7 @@ export class DailyLog extends Component {
             <div className="list-group">
               <span href="#" className="list-group-item active">{selectedDate.get('date').toDateString()}</span>
             </div>
-            <LogViewer entries={filteredEntries} currentDate={selectedDate.get('date')} addEntryFunction={(date,entry)=>this.addALog(date,entry)} />
+            <LogViewer entries={filteredEntries} currentDate={selectedDate.get('date')} addEntryFunction={(date,entry,calory)=>this.addALog(date,entry,calory)} />
             </div>
           </div>
       );
